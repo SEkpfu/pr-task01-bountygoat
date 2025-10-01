@@ -1,15 +1,9 @@
 #include <iostream>
-using namespace std;
 #include<vector>
-
-int main() {
-
-    cout << "Vvedite kol-vo rabochih: " << endl;
-    int kr;
-    cin >> kr;
+using namespace std;
 
 
-
+vector<double> zpe(int kr) {
     vector<double> kol_ch(kr), stavka(kr);
     for (int i = 0; i < kr; ++i) {
         cout << "Vvedite kol-vo chasov rabotnika ¹" << i + 1 << endl;
@@ -24,22 +18,23 @@ int main() {
         nal[i] = sk[i] * 0.13;
         sum_nal += nal[i];
         zp[i] = sk[i] - nal[i];
-
-    }  
-
-
+    }
+    cout << "Obshaya summa uplachenogo naloga sostavlyaet: " << sum_nal << endl;
+    return zp;
+}
+int minimum(vector<double> zp, int kr) {
     int rabmin = 0;
-    double minzp = 9999999;
+    double minzp = 999999999;
     for (int i = 0; i < kr; ++i) {
         if (zp[i] < minzp) {
             minzp = zp[i];
             rabmin = i;
         }
     }
-    cout << "Nomer rabotnika s naimenshei zp: " << rabmin + 1 << endl;
-
-
-    int rabmax = 0;
+    return rabmin;
+}
+vector<double> maximum(vector<double> zp, int kr) {
+    double rabmax = 0;
     double maxzp = 0;
     for (int i = 0; i < kr; ++i) {
         if (zp[i] > maxzp) {
@@ -47,11 +42,9 @@ int main() {
             rabmax = i;
         }
     }
-    cout << "Max zp sostavlyaet: " << maxzp << " nomer rabotnika: " << rabmax + 1 << endl;
-
-    cout << "Obshaya summa uplachenogo naloga sostavlyaet: " << sum_nal << endl;
-
-
+    return { maxzp, rabmax };
+}
+int bol50(vector<double> zp, int kr) {
     cout << "Nomera rabochih s zp>50k: " << endl;
     int rabbol50 = 0;
     for (int i = 0; i < kr; ++i) {
@@ -61,6 +54,26 @@ int main() {
         }
     }
     cout << "\n";
+    return rabbol50;
+}
+
+
+int main(){
+    vector<double> zp;
+    vector<double> rab_maxzp;
+    double sum_nal;
+    int rabmin, rabbol50;
+
+    cout << "Vvedite kol-vo rabochih: " << endl;
+    int kr;
+    cin >> kr;
+    zp = zpe(kr);
+    rabmin = minimum(zp,kr);
+    rab_maxzp = maximum(zp, kr);
+    rabbol50 = bol50(zp, kr);
+    
+    cout << "Nomer rabotnika s naimenshei zp: " << rabmin + 1 << endl;
+    cout << "Max zp sostavlyaet: " << rab_maxzp[0] << " nomer rabotnika: " << rab_maxzp[1] + 1 << endl;
     cout << "Kol-vo rabochix chya zp >50k: " << rabbol50 << endl;
 
     return 0;
