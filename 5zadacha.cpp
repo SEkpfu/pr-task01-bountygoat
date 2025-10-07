@@ -2,38 +2,50 @@
 
 using namespace std;
 
-int hour1, hour2;
-double stavka1, stavka2, zp1,zp2;
 
-int dann1() {
-	cout << "kolvo chasov u 1: ";
-	cin >> hour1;
-	cout << "pochasovaya stavka u 1 : ";
-	cin >> stavka1;
-	zp1 = hour1 * stavka1;
-	return 0;
+void dann(double& hour, double& stavka,double& premiya, double& nalog) {
+	cout << "kolvo chasov: ";
+	cin >> hour;
+	cout << "pochasovaya stavka: ";
+	cin >> stavka;
+	cout << "procent premii: ";
+	cin >> premiya;
+	cout << "procent naloga: ";
+	cin >> nalog;
 }
-int dann2() {
-	cout << "kolvo chasov u 2: ";
-	cin >> hour2;
-	cout << "pochasovaya stavka u 2: ";
-	cin >> stavka2;
-	zp2 = hour2 * stavka2;
-	return 0;
+
+void zp(int hour, int stavka, double premiya, double nalog, double& zp, double& vsya_zp, double& ndfl, double& summ_s_nalogom) {
+
+	zp = hour * stavka;
+	vsya_zp = zp + premiya;
+	ndfl = vsya_zp * (nalog / 100);
+	summ_s_nalogom = vsya_zp - ndfl;
 }
 
 int main() {
-	dann1();
-	dann2();
-	if (zp1 > zp2) 
+	double hour, stavka, premiya, nalog, zp1,zp2, vsya_zp1, vsya_zp2, ndfl1,ndfl2, summ_s_nalogom1, summ_s_nalogom2;
+	cout << "Vvedite dannue 1 rabotnika: " << endl;
+	dann(hour, stavka, premiya, nalog);
+	zp(hour, stavka, premiya, nalog, zp1, vsya_zp1, ndfl1, summ_s_nalogom1);
+	cout << " " << endl;
+	cout << "Vvedite dannue 2 rabotnika: " << endl;
+	dann(hour, stavka, premiya, nalog);
+	zp(hour, stavka, premiya, nalog, zp2, vsya_zp2, ndfl2, summ_s_nalogom2);
+	cout << " " << endl;
+
+	if (summ_s_nalogom1 > summ_s_nalogom2) 
 	{
 		cout << "1 zarabotal bolshe \n ";
 	}
-	else
+	else if (summ_s_nalogom2 > summ_s_nalogom1)
 	{
 		cout << "2 zarabotal bolshe \n";
 	}
+	else
+	{
+		cout << "zarabotali porovnu \n";
+	}
 
-	cout << "summa zarabotannaya oboimi: " << zp1 + zp2 << endl;
+	cout << "summa zarabotannaya oboimi: " << summ_s_nalogom1 + summ_s_nalogom2 << endl;
 	return 0;
 }
