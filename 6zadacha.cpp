@@ -1,45 +1,42 @@
-#include <iostream>
-#include <sstream>
-
-
+#include<iostream>
 using namespace std;
 
-int hour1, hour2;
-double stavka1, stavka2, zp1, zp2, nalog1, nalog2;
-string fam1, fam2;
 
-int dann1() {
-	cout << "kolvo chasov u 1: ";
-	cin >> hour1;
-	cout << "pochasovaya stavka u 1: ";
-	cin >> stavka1;
-	cout << "familiya 1: ";
-	cin >> fam1;
-	cout << "nalog 1: ";
-	cin >> nalog1;
-	zp1 = hour1 * stavka1;
+void dann(double& hour, double& stavka, double& premiya, double& nalog, string& fam) {
+	cout << "Vvedite familiy: " << endl;
+	cin >> fam;
 
-
-
-	return 0;
+	cout << "Vvedite dannue rabotnika: " << endl;
+	cout << "Chasu: " << endl;
+	cin >> hour;
+	cout << "Stavka: " << endl;
+	cin >> stavka;
+	cout << "Procent premii: " << endl;
+	cin >> premiya;
+	cout << "Procent naloga: " << endl;
+	cin >> nalog;
 }
-int dann2() {
-	cout << "kolvo chasov u 2: ";
-	cin >> hour2;
-	cout << "pochasovaya stavka u 2: ";
-	cin >> stavka2;
-	cout << "familiya 2: ";
-	cin >> fam2;
-	cout << "nalog 2: ";
-	cin >> nalog2;
-	zp2 = hour2 * stavka2;
-	return 0;
+double zpe(double hour, double stavka, double premiya) {
+	double zp = hour * stavka;
+	return zp + zp * premiya / 100;
 }
-
-
+double nalogi(double vsya_zp, double nalog) {
+	return nalog / 100 * vsya_zp;
+}
+double naruki(double hour, double stavka, double premiya, double nalog) {
+	double vsya_zp = zpe(hour, stavka, premiya);
+	return vsya_zp - nalogi(vsya_zp, nalog);
+}
 int main() {
-	dann1();
-	dann2();
+	string fam1, fam2;
+	double hour, stavka, premiya, zp1, zp2, nalog, nalog1, nalog2;
+	dann(hour, stavka, premiya, nalog, fam1);
+	zp1 = naruki(hour, stavka, premiya, nalog);
+	nalog1 = nalogi(zpe(hour, stavka, premiya), nalog);
+	dann(hour, stavka, premiya, nalog, fam2);
+	zp2 = naruki(hour, stavka, premiya, nalog);
+	nalog2 = nalogi(zpe(hour, stavka, premiya), nalog);
+	
 	if (zp1<1000)
 	{
 		cout << "zp<1000 u " << fam1 << endl;
@@ -51,12 +48,12 @@ int main() {
 	if (nalog1 > 50)
 	{
 		cout << "nalog > 50 u ";
-		cout << fam1[0] <<"-" << fam1[fam1.length() - 1] << " ";
+		cout << fam1[0] << "-" << fam1[fam1.length() - 1] << " " << endl;;
 	}
 	if (nalog2 > 50)
 	{
 		cout << "nalog > 50 u ";
-		cout << fam2[0] <<"-"<< fam2[fam2.length() - 1] << " ";
+		cout << fam2[0] << "-" << fam2[fam2.length() - 1] << " " << endl;;
 	}
 	return 0;
 }
